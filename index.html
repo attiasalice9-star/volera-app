@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Velora — The Art of the Exceptional</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #0D1B2A;
+    --midnight-light: #162236;
+    --midnight-mid: #1e3050;
+    --gold: #C9A84C;
+    --gold-light: #DFC078;
+    --gold-pale: #F0E0B0;
+    --ivory: #F5F0E8;
+    --ivory-dark: #EDE6D6;
+    --text-on-dark: #EDE6D6;
+    --text-muted: rgba(237,230,214,0.55);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--midnight);
+    color: var(--text-on-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-weight: 300;
+  }
+
+  /* ── PHONE WRAPPER ── */
+  .phone-shell {
+    max-width: 390px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--midnight);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── SCREENS ── */
+  .screen {
+    display: none;
+    min-height: 100vh;
+    flex-direction: column;
+    animation: fadeIn 0.35s ease;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px 4px;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* ── SPLASH ── */
+  #splash {
+    background: var(--midnight);
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+  .splash-inner {
+    text-align: center;
+    padding: 2rem;
+    animation: splashIn 1.2s ease forwards;
+  }
+  @keyframes splashIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+
+  .splash-logo-mark {
+    width: 72px;
+    height: 72px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+  .splash-logo-mark::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 0.5px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+  }
+  .splash-v {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+  }
+  .splash-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-on-dark);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .splash-tag {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+  .splash-line {
+    width: 40px;
+    height: 0.5px;
+    background: var(--gold);
+    margin: 0 auto 60px;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--midnight);
+    border: none;
+    padding: 14px 48px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    transition: background 0.2s, opacity 0.2s;
+    margin-bottom: 14px;
+  }
+  .btn-primary:active { opacity: 0.85; }
+  .btn-outline {
+    background: transparent;
+    color: var(--text-on-dark);
+    border: 0.5px solid rgba(237,230,214,0.3);
+    padding: 14px 48px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .btn-outline:active { border-color: var(--gold); }
+
+  /* ── HEADER ── */
+  .app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px 16px;
+    flex-shrink: 0;
+  }
+  .header-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text-on-dark);
+    letter-spacing: 1px;
+  }
+  .header-logo span { color: var(--gold); }
+  .header-notif {
+    width: 36px;
+    height: 36px;
+    border: 0.5px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  /* ── SCROLL AREA ── */
+  .scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 100px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .scroll-area::-webkit-scrollbar { display: none; }
+
+  /* ── HOME SCREEN ── */
+  .welcome-line {
+    font-size: 12px;
+    font-weight: 200;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .welcome-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--text-on-dark);
+    margin-bottom: 24px;
+  }
+
+  /* ── HERO CARD ── */
+  .hero-card {
+    background: linear-gradient(135deg, var(--midnight-mid) 0%, #0f2a45 100%);
+    border: 0.5px solid rgba(201,168,76,0.25);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 140px;
+    height: 140px;
+    border: 0.5px solid rgba(201,168,76,0.15);
+    border-radius: 50%;
+  }
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    border: 0.5px solid rgba(201,168,76,0.1);
+    border-radius: 50%;
+  }
+  .hero-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold);
+    color: var(--midnight);
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s;
+  }
+  .hero-btn:active { opacity: 0.85; }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  /* ── SERVICE GRID ── */
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .service-card {
+    background: var(--midnight-light);
+    border: 0.5px solid rgba(201,168,76,0.15);
+    border-radius: var(--radius-sm);
+    padding: 18px 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-align: left;
+  }
+  .service-card:active { border-color: var(--gold); background: var(--midnight-mid); }
+  .service-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .service-name {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-on-dark);
+    margin-bottom: 2px;
+  }
+  .service-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* ── RECOMMENDATION CARDS ── */
+  .rec-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    margin-bottom: 28px;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .rec-scroll::-webkit-scrollbar { display: none; }
+  .rec-card {
+    min-width: 160px;
+    background: var(--midnight-light);
+    border: 0.5px solid rgba(201,168,76,0.15);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+  }
+  .rec-card:active { border-color: var(--gold); }
+  .rec-img {
+    height: 90px;
+    background: var(--midnight-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    position: relative;
+  }
+  .rec-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(201,168,76,0.9);
+    color: var(--midnight);
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+  .rec-body { padding: 10px 12px; }
+  .rec-name { font-size: 12px; font-weight: 400; margin-bottom: 2px; }
+  .rec-loc { font-size: 10px; color: var(--text-muted); }
+
+  /* ── UPCOMING ── */
+  .upcoming-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 0.5px solid rgba(237,230,214,0.08);
+    cursor: pointer;
+  }
+  .upcoming-date {
+    text-align: center;
+    min-width: 40px;
+  }
+  .upcoming-day {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .upcoming-month {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .upcoming-info { flex: 1; }
+  .upcoming-title { font-size: 13px; font-weight: 400; margin-bottom: 2px; }
+  .upcoming-sub { font-size: 10px; color: var(--text-muted); }
+  .upcoming-status {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  /* ── REQUEST SCREEN ── */
+  .request-header {
+    padding: 8px 20px 20px;
+  }
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'Jost', sans-serif;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom: 4px;
+  }
+  .page-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  /* ── CHAT BUBBLES ── */
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chat-area::-webkit-scrollbar { display: none; }
+  .bubble {
+    max-width: 80%;
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .bubble-concierge {
+    background: var(--midnight-light);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+  }
+  .bubble-user {
+    background: var(--gold);
+    color: var(--midnight);
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+    font-weight: 400;
+  }
+  .bubble-sender {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .bubble-sender.user-sender { color: rgba(13,27,42,0.6); }
+
+  .quick-replies {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 0 20px 12px;
+  }
+  .quick-reply {
+    background: transparent;
+    border: 0.5px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: 'Jost', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 300;
+  }
+  .quick-reply:active { background: rgba(201,168,76,0.15); }
+
+  .chat-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px 28px;
+    border-top: 0.5px solid rgba(237,230,214,0.08);
+    flex-shrink: 0;
+  }
+  .chat-input {
+    flex: 1;
+    background: var(--midnight-light);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-radius: 24px;
+    padding: 11px 16px;
+    color: var(--text-on-dark);
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    outline: none;
+  }
+  .chat-input::placeholder { color: var(--text-muted); }
+  .send-btn {
+    width: 40px;
+    height: 40px;
+    background: var(--gold);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+  .send-btn:active { opacity: 0.8; }
+
+  /* ── SERVICES SCREEN ── */
+  .services-list { padding: 0 20px 100px; }
+  .service-category {
+    margin-bottom: 28px;
+  }
+  .service-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 0.5px solid rgba(237,230,214,0.08);
+    cursor: pointer;
+    transition: padding-left 0.2s;
+  }
+  .service-row:active { padding-left: 4px; }
+  .service-row-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--midnight-light);
+    border: 0.5px solid rgba(201,168,76,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .service-row-info { flex: 1; }
+  .service-row-name { font-size: 14px; font-weight: 400; margin-bottom: 2px; }
+  .service-row-desc { font-size: 11px; color: var(--text-muted); }
+  .service-row-arrow { color: var(--gold); font-size: 16px; opacity: 0.6; }
+
+  /* ── PROFILE SCREEN ── */
+  .profile-hero {
+    padding: 0 20px 24px;
+    text-align: center;
+  }
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--gold);
+    background: var(--midnight-light);
+  }
+  .profile-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 4px;
+  }
+  .profile-plan {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,168,76,0.12);
+    border: 0.5px solid rgba(201,168,76,0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 0 20px 24px;
+  }
+  .stat-box {
+    background: var(--midnight-light);
+    border: 0.5px solid rgba(201,168,76,0.12);
+    border-radius: var(--radius-sm);
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
+
+  .menu-section { padding: 0 20px; margin-bottom: 20px; }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 0.5px solid rgba(237,230,214,0.08);
+    cursor: pointer;
+  }
+  .menu-item-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--midnight-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .menu-item-label { flex: 1; font-size: 13px; font-weight: 300; }
+  .menu-item-arrow { color: var(--text-muted); font-size: 12px; }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 390px;
+    background: rgba(13,27,42,0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 0.5px solid rgba(201,168,76,0.15);
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0 24px;
+    z-index: 100;
+  }
+  .bottom-nav.visible { display: flex; }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 4px 16px;
+    border: none;
+    background: none;
+    transition: opacity 0.2s;
+  }
+  .nav-icon { font-size: 20px; }
+  .nav-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: 'Jost', sans-serif;
+  }
+  .nav-item.active .nav-label { color: var(--gold); }
+  .nav-item.active .nav-icon { filter: sepia(1) saturate(3) hue-rotate(5deg) brightness(1.2); }
+
+  /* ── REQUEST FAB ── */
+  .fab {
+    position: fixed;
+    bottom: 80px;
+    right: calc(50% - 175px);
+    width: 54px;
+    height: 54px;
+    background: var(--gold);
+    border: none;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 101;
+    font-size: 22px;
+    box-shadow: 0 4px 24px rgba(201,168,76,0.3);
+    transition: transform 0.2s;
+  }
+  .fab.visible { display: flex; }
+  .fab:active { transform: scale(0.93); }
+
+  /* ── TYPING INDICATOR ── */
+  .typing-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 2px 0;
+  }
+  .typing-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: dot-bounce 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot-bounce { 0%,80%,100% { opacity: 0.3; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1.1); } }
+
+  /* ── DASHBOARD SCREEN ── */
+  .dash-card {
+    background: var(--midnight-light);
+    border: 0.5px solid rgba(201,168,76,0.15);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 14px;
+  }
+  .dash-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .dash-card-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .dash-card-link { font-size: 10px; color: var(--text-muted); letter-spacing: 1px; cursor: pointer; }
+  .booking-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid rgba(237,230,214,0.07);
+  }
+  .booking-row:last-child { border-bottom: none; }
+  .booking-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .booking-dot.grey { background: var(--text-muted); }
+  .booking-info { flex: 1; }
+  .booking-name { font-size: 12px; font-weight: 400; }
+  .booking-date { font-size: 10px; color: var(--text-muted); }
+  .booking-price { font-size: 12px; color: var(--gold); }
+</style>
+</head>
+<body>
+<div class="phone-shell">
+
+  <!-- SPLASH -->
+  <div class="screen active" id="splash">
+    <div class="splash-inner">
+      <div class="splash-logo-mark"><div class="splash-v">V</div></div>
+      <div class="splash-name">Velora</div>
+      <div class="splash-tag">The Art of the Exceptional</div>
+      <div class="splash-line"></div>
+      <button class="btn-primary" onclick="goTo('home')">Enter Your World</button>
+      <button class="btn-outline" onclick="goTo('home')">Sign In</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen" id="home">
+    <div class="status-bar"><span>9:41</span><span>●●●●○ 5G</span><span>87%</span></div>
+    <div class="app-header">
+      <div class="header-logo"><span>V</span>elora</div>
+      <div class="header-notif">🔔</div>
+    </div>
+    <div class="scroll-area">
+      <div class="welcome-line">Good morning</div>
+      <div class="welcome-name">James Harrington</div>
+
+      <div class="hero-card">
+        <div class="hero-label">Personal Request</div>
+        <div class="hero-title">What can we arrange for you today?</div>
+        <button class="hero-btn" onclick="goTo('request')">✦ Make a Request</button>
+      </div>
+
+      <div class="section-title">Your Services</div>
+      <div class="service-grid">
+        <div class="service-card" onclick="goTo('services')">
+          <span class="service-icon">✈</span>
+          <div class="service-name">Travel</div>
+          <div class="service-sub">Flights & hotels</div>
+        </div>
+        <div class="service-card" onclick="goTo('services')">
+          <span class="service-icon">🍽</span>
+          <div class="service-name">Dining</div>
+          <div class="service-sub">Fine restaurants</div>
+        </div>
+        <div class="service-card" onclick="goTo('services')">
+          <span class="service-icon">🎭</span>
+          <div class="service-name">Events</div>
+          <div class="service-sub">VIP access</div>
+        </div>
+        <div class="service-card" onclick="goTo('services')">
+          <span class="service-icon">🚗</span>
+          <div class="service-name">Transport</div>
+          <div class="service-sub">Private & chauffeur</div>
+        </div>
+      </div>
+
+      <div class="section-title">Recommended for You</div>
+      <div class="rec-scroll">
+        <div class="rec-card">
+          <div class="rec-img">🏨<div class="rec-tag">New</div></div>
+          <div class="rec-body">
+            <div class="rec-name">Hôtel de Crillon</div>
+            <div class="rec-loc">Paris, France</div>
+          </div>
+        </div>
+        <div class="rec-card">
+          <div class="rec-img">🍾<div class="rec-tag">Exclusive</div></div>
+          <div class="rec-body">
+            <div class="rec-name">Le Grand Véfour</div>
+            <div class="rec-loc">3 Michelin Stars</div>
+          </div>
+        </div>
+        <div class="rec-card">
+          <div class="rec-img">🎪<div class="rec-tag">VIP</div></div>
+          <div class="rec-body">
+            <div class="rec-name">Cannes Festival</div>
+            <div class="rec-loc">May 2026</div>
+          </div>
+        </div>
+        <div class="rec-card">
+          <div class="rec-img">⛵<div class="rec-tag">Luxury</div></div>
+          <div class="rec-body">
+            <div class="rec-name">Yacht Charter</div>
+            <div class="rec-loc">Côte d'Azur</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Upcoming Reservations</div>
+      <div class="upcoming-item">
+        <div class="upcoming-date">
+          <div class="upcoming-day">18</div>
+          <div class="upcoming-month">Apr</div>
+        </div>
+        <div class="upcoming-info">
+          <div class="upcoming-title">Dinner — Restaurant Le Meurice</div>
+          <div class="upcoming-sub">Paris · 8:30 PM · 2 guests</div>
+        </div>
+        <div class="upcoming-status">Confirmed</div>
+      </div>
+      <div class="upcoming-item">
+        <div class="upcoming-date">
+          <div class="upcoming-day">22</div>
+          <div class="upcoming-month">Apr</div>
+        </div>
+        <div class="upcoming-info">
+          <div class="upcoming-title">Flight — CDG → LHR Business</div>
+          <div class="upcoming-sub">Air France · AF 1234 · 14:20</div>
+        </div>
+        <div class="upcoming-status">Confirmed</div>
+      </div>
+      <div class="upcoming-item">
+        <div class="upcoming-date">
+          <div class="upcoming-day">3</div>
+          <div class="upcoming-month">May</div>
+        </div>
+        <div class="upcoming-info">
+          <div class="upcoming-title">Suite — The Ritz London</div>
+          <div class="upcoming-sub">3 nights · Piccadilly Suite</div>
+        </div>
+        <div class="upcoming-status">Pending</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REQUEST / CONCIERGE CHAT -->
+  <div class="screen" id="request" style="display:none; flex-direction:column;">
+    <div class="status-bar"><span>9:41</span><span>●●●●○ 5G</span><span>87%</span></div>
+    <div class="request-header">
+      <button class="back-btn" onclick="goTo('home')">← Back</button>
+      <div class="page-title">Your Concierge</div>
+      <div class="page-sub">Available 24/7 · Response in minutes</div>
+    </div>
+    <div class="chat-area" id="chatArea">
+      <div class="bubble bubble-concierge">
+        <div class="bubble-sender">Velora Concierge</div>
+        Good morning, James. I'm Sophie, your personal concierge. How may I assist you today? Whether it's a last-minute reservation, travel planning, or an exclusive experience — I'm here.
+      </div>
+    </div>
+    <div class="quick-replies" id="quickReplies">
+      <button class="quick-reply" onclick="sendQuick('Book a restaurant in Paris')">🍽 Restaurant</button>
+      <button class="quick-reply" onclick="sendQuick('Plan a weekend trip')">✈ Weekend trip</button>
+      <button class="quick-reply" onclick="sendQuick('Arrange private transport')">🚗 Transport</button>
+      <button class="quick-reply" onclick="sendQuick('VIP event access')">🎭 VIP Event</button>
+    </div>
+    <div class="chat-input-bar">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Type your request..." />
+      <button class="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="screen" id="services">
+    <div class="status-bar"><span>9:41</span><span>●●●●○ 5G</span><span>87%</span></div>
+    <div class="app-header">
+      <div class="header-logo"><span>V</span>elora</div>
+      <div class="header-notif">🔍</div>
+    </div>
+    <div class="services-list">
+      <div class="section-title" style="padding-top:0">Travel</div>
+      <div class="service-category">
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">✈</div>
+          <div class="service-row-info">
+            <div class="service-row-name">Private Flights</div>
+            <div class="service-row-desc">Business & first class, charter jets</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">🏨</div>
+          <div class="service-row-info">
+            <div class="service-row-name">Luxury Hotels</div>
+            <div class="service-row-desc">Curated 5-star properties worldwide</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">⛵</div>
+          <div class="service-row-info">
+            <div class="service-row-name">Yacht & Villa</div>
+            <div class="service-row-desc">Exclusive charters & private rentals</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+      </div>
+
+      <div class="section-title">Dining & Entertainment</div>
+      <div class="service-category">
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">🍽</div>
+          <div class="service-row-info">
+            <div class="service-row-name">Fine Dining</div>
+            <div class="service-row-desc">Michelin-starred reservations</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">🎭</div>
+          <div class="service-row-info">
+            <div class="service-row-name">VIP Events</div>
+            <div class="service-row-desc">Fashion weeks, galas, premieres</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">🎶</div>
+          <div class="service-row-info">
+            <div class="service-row-name">Private Events</div>
+            <div class="service-row-desc">Celebrations & exclusive gatherings</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+      </div>
+
+      <div class="section-title">Lifestyle</div>
+      <div class="service-category">
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">🚗</div>
+          <div class="service-row-info">
+            <div class="service-row-name">Private Transport</div>
+            <div class="service-row-desc">Chauffeur, helicopter transfers</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">🛍</div>
+          <div class="service-row-info">
+            <div class="service-row-name">Personal Shopping</div>
+            <div class="service-row-desc">Personal stylist & luxury brands</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+        <div class="service-row" onclick="goTo('request')">
+          <div class="service-row-icon">🌿</div>
+          <div class="service-row-info">
+            <div class="service-row-name">Wellness & Spa</div>
+            <div class="service-row-desc">Exclusive retreats & treatments</div>
+          </div>
+          <div class="service-row-arrow">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="screen" id="dashboard">
+    <div class="status-bar"><span>9:41</span><span>●●●●○ 5G</span><span>87%</span></div>
+    <div class="app-header">
+      <div class="header-logo"><span>V</span>elora</div>
+      <div class="header-notif">📋</div>
+    </div>
+    <div class="scroll-area">
+      <div class="welcome-line">Your Dashboard</div>
+      <div class="welcome-name">All Arrangements</div>
+
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">Active Bookings</div>
+          <div class="dash-card-link">View all</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-dot"></div>
+          <div class="booking-info">
+            <div class="booking-name">Le Meurice Restaurant</div>
+            <div class="booking-date">18 April 2026 · 8:30 PM</div>
+          </div>
+          <div class="booking-price">Confirmed</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-dot"></div>
+          <div class="booking-info">
+            <div class="booking-name">Air France AF1234</div>
+            <div class="booking-date">22 April · Business Class</div>
+          </div>
+          <div class="booking-price">€2,840</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-dot grey"></div>
+          <div class="booking-info">
+            <div class="booking-name">The Ritz London · Suite</div>
+            <div class="booking-date">3 May · 3 nights</div>
+          </div>
+          <div class="booking-price">Pending</div>
+        </div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">Recent Requests</div>
+          <div class="dash-card-link">History</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-dot"></div>
+          <div class="booking-info">
+            <div class="booking-name">Château Pichon Baron wine delivery</div>
+            <div class="booking-date">Completed · 10 April</div>
+          </div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-dot"></div>
+          <div class="booking-info">
+            <div class="booking-name">Cannes Film Festival — VIP pass</div>
+            <div class="booking-date">Completed · 5 April</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">Membership</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="flex:1">
+            <div style="font-size:18px; font-family:'Cormorant Garamond',serif; margin-bottom:4px;">Premium Member</div>
+            <div style="font-size:11px; color:var(--text-muted);">Renewal · 1 January 2027</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:10px; color:var(--gold); letter-spacing:1px; text-transform:uppercase;">Priority Access</div>
+            <div style="font-size:10px; color:var(--text-muted);">✦ Gold Tier</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="screen" id="profile">
+    <div class="status-bar"><span>9:41</span><span>●●●●○ 5G</span><span>87%</span></div>
+    <div class="app-header">
+      <div class="header-logo"><span>V</span>elora</div>
+    </div>
+    <div class="scroll-area" style="padding-left:0; padding-right:0;">
+      <div class="profile-hero">
+        <div class="profile-avatar">JH</div>
+        <div class="profile-name">James Harrington</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">james@harrington-partners.com</div>
+        <div class="profile-plan">✦ Premium Member</div>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-box">
+          <div class="stat-num">47</div>
+          <div class="stat-label">Requests</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">12</div>
+          <div class="stat-label">Bookings</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">8</div>
+          <div class="stat-label">Countries</div>
+        </div>
+      </div>
+      <div class="menu-section">
+        <div class="section-title">Account</div>
+        <div class="menu-item">
+          <div class="menu-item-icon">👤</div>
+          <div class="menu-item-label">Personal Information</div>
+          <div class="menu-item-arrow">›</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-icon">⭐</div>
+          <div class="menu-item-label">Preferences & Favorites</div>
+          <div class="menu-item-arrow">›</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-icon">💳</div>
+          <div class="menu-item-label">Membership & Billing</div>
+          <div class="menu-item-arrow">›</div>
+        </div>
+      </div>
+      <div class="menu-section">
+        <div class="section-title">Settings</div>
+        <div class="menu-item">
+          <div class="menu-item-icon">🔔</div>
+          <div class="menu-item-label">Notifications</div>
+          <div class="menu-item-arrow">›</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-icon">🔒</div>
+          <div class="menu-item-label">Privacy & Security</div>
+          <div class="menu-item-arrow">›</div>
+        </div>
+        <div class="menu-item" onclick="goTo('splash')">
+          <div class="menu-item-icon">🚪</div>
+          <div class="menu-item-label">Sign Out</div>
+          <div class="menu-item-arrow">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab" id="fab" onclick="goTo('request')">✦</button>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-item active" id="nav-home" onclick="goTo('home')">
+      <span class="nav-icon">⌂</span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" id="nav-services" onclick="goTo('services')">
+      <span class="nav-icon">◈</span>
+      <span class="nav-label">Services</span>
+    </button>
+    <button class="nav-item" id="nav-dashboard" onclick="goTo('dashboard')">
+      <span class="nav-icon">◻</span>
+      <span class="nav-label">My Trips</span>
+    </button>
+    <button class="nav-item" id="nav-profile" onclick="goTo('profile')">
+      <span class="nav-icon">◯</span>
+      <span class="nav-label">Profile</span>
+    </button>
+  </nav>
+
+</div>
+
+<script>
+const appScreens = ['home','services','dashboard','profile','request'];
+const navScreens = ['home','services','dashboard','profile'];
+
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const target = document.getElementById(id);
+  target.style.display = 'flex';
+  target.classList.add('active');
+
+  const showNav = navScreens.includes(id);
+  const nav = document.getElementById('bottomNav');
+  const fab = document.getElementById('fab');
+  nav.classList.toggle('visible', showNav);
+  fab.classList.toggle('visible', showNav && id !== 'home');
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const activeNav = document.getElementById('nav-' + id);
+  if (activeNav) activeNav.classList.add('active');
+}
+
+const conciergeReplies = {
+  'Book a restaurant in Paris': [
+    "Of course, James. I have availability tonight at Le Grand Véfour (3 stars) or Épicure at Le Bristol. Do you have a preference, and how many guests?",
+    "Wonderful choice. I'll secure a table immediately and send the confirmation to your app. Is there anything else — flowers, a wine selection?"
+  ],
+  'Plan a weekend trip': [
+    "Delightful. Based on your recent travel to the Côte d'Azur, may I suggest Nice or Antibes for this weekend? I can arrange flights, a villa, and dining.",
+    "Perfect. I'll prepare a full itinerary — flights departing Friday evening, accommodation at the Grand-Hôtel du Cap-Ferrat, and a private yacht for Saturday. Shall I proceed?"
+  ],
+  'Arrange private transport': [
+    "Certainly. Would you prefer a chauffeur-driven Mercedes S-Class, a helicopter transfer, or a private jet for this occasion?",
+    "Noted. I'll have the vehicle ready at your preferred address 15 minutes ahead of schedule. You'll receive the driver's contact upon confirmation."
+  ],
+  'VIP event access': [
+    "I have VIP access options for the Monaco Grand Prix (May 25), Cannes Film Festival (May 13–24), and a private gala in London next week. Which interests you?",
+    "Excellent. I'll arrange your VIP passes, front-row access, and a private dinner with the organizers afterward. Anything else?"
+  ]
+};
+
+let defaultReplies = [
+  "Understood, James. Let me handle that for you right away. I'll confirm the details within the next few minutes.",
+  "Absolutely. I'll coordinate with our partners and get back to you with the best available options. Is there a specific budget or preference to keep in mind?"
+];
+
+function sendQuick(text) {
+  addUserBubble(text);
+  document.getElementById('quickReplies').style.display = 'none';
+  const replies = conciergeReplies[text] || defaultReplies;
+  showTyping(replies, 0);
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addUserBubble(text);
+  document.getElementById('quickReplies').style.display = 'none';
+  showTyping(defaultReplies, 0);
+}
+
+document.getElementById('chatInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendMessage();
+});
+
+function addUserBubble(text) {
+  const area = document.getElementById('chatArea');
+  const wrap = document.createElement('div');
+  wrap.style.alignSelf = 'flex-end';
+  wrap.innerHTML = `<div class="bubble bubble-user"><div class="bubble-sender user-sender">You</div>${text}</div>`;
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+}
+
+function showTyping(replies, index) {
+  const area = document.getElementById('chatArea');
+  const typing = document.createElement('div');
+  typing.className = 'bubble bubble-concierge';
+  typing.innerHTML = '<div class="bubble-sender">Velora Concierge</div><div class="typing-dots"><span></span><span></span><span></span></div>';
+  area.appendChild(typing);
+  area.scrollTop = area.scrollHeight;
+
+  setTimeout(() => {
+    typing.innerHTML = `<div class="bubble-sender">Velora Concierge</div>${replies[index]}`;
+    area.scrollTop = area.scrollHeight;
+    if (index + 1 < replies.length) {
+      setTimeout(() => showTyping(replies, index + 1), 1200);
+    }
+  }, 1500);
+}
+</script>
+</body>
+</html>
